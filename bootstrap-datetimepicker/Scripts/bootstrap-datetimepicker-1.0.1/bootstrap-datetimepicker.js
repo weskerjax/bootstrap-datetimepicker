@@ -270,9 +270,10 @@
 	}
 
 	function update(picker, newDate) {
+		var trDate = picker.options.transferInDate;
 		var dateStr = newDate;
 		if (!dateStr) {
-			dateStr = picker.inputEl.val();
+			dateStr = trDate(picker.inputEl.val());		
 			if (dateStr){
 				picker.date = moment(dateStr, picker.format, picker.options.useStrict);
 			}
@@ -308,6 +309,7 @@
 	
 	function fillDate(picker) {
 		if(!picker.options.pickDate){ return; }
+		var trYear = picker.options.transferOutYear;
 		var year = picker.viewDate.year(),
 			month = picker.viewDate.month(),
 			startYear = picker.options.minDate.year(),
@@ -320,7 +322,7 @@
 		picker.widget.find('.datepicker-months .disabled').removeClass('disabled');
 		picker.widget.find('.datepicker-years .disabled').removeClass('disabled');
 
-		picker.widget.find('.datepicker-days th:eq(1)').text(year + ' ' + months[month]);
+		picker.widget.find('.datepicker-days th:eq(1)').text(trYear(year) + ' ' + months[month]);
 
 		var prevMonth = moment(picker.viewDate).subtract("months", 1);
 		var days = prevMonth.daysInMonth();
@@ -375,7 +377,7 @@
 		
 		var currentYear = picker.date.year();
 		picker.widget.find('.datepicker-days tbody').empty().append(html);
-		months = picker.widget.find('.datepicker-months').find('th:eq(1)').text(year).end().find('span').removeClass('active');
+		months = picker.widget.find('.datepicker-months').find('th:eq(1)').text(trYear(year)).end().find('span').removeClass('active');
 		if (currentYear === year) {
 			months.eq(picker.date.month()).addClass('active');
 		}
@@ -395,7 +397,7 @@
 
 		html = '';
 		year = parseInt(year / 10, 10) * 10;
-		var yearCont = picker.widget.find('.datepicker-years').find('th:eq(1)').text(year + '-' + (year + 9)).end().find('td');
+		var yearCont = picker.widget.find('.datepicker-years').find('th:eq(1)').text(trYear(year) + '-' + trYear(year + 9)).end().find('td');
 		picker.widget.find('.datepicker-years').find('th').removeClass('disabled');
 		if (startYear > year) {
 			picker.widget.find('.datepicker-years').find('th:eq(0)').addClass('disabled');
@@ -405,7 +407,7 @@
 		}
 		year -= 1;
 		for (i = -1; i < 11; i++) {
-			html += '<span class="year' + (i === -1 || i === 10 ? ' old' : '') + (currentYear === year ? ' active' : '') + ((year < startYear || year > endYear) ? ' disabled' : '') + '">' + year + '</span>';
+			html += '<span class="year' + (i === -1 || i === 10 ? ' old' : '') + (currentYear === year ? ' active' : '') + ((year < startYear || year > endYear) ? ' disabled' : '') + '">' + trYear(year) + '</span>';
 			year += 1;
 		}
 		yearCont.html(html);
@@ -494,12 +496,14 @@
 	function clickMenu(picker, target) {
 		picker.unset = false;
 		
+		var trYear = picker.options.transferOutYear;
 		var oldDate = moment(picker.date);
 		if (target.is('.month')) {
 			var month = target.parent().find('span').index(target);
 			picker.viewDate.month(month);
 		} else {
 			var year = parseInt(target.text(), 10) || 0;
+			year -= trYear(0);
 			picker.viewDate.year(year);
 		}
 		if (picker.viewMode === picker.minViewMode) {
@@ -558,8 +562,9 @@
 	
 
 	function change(picker) {
+		var trDate = picker.options.transferInDate;
 		var oldDate = moment(picker.date);
-		var newDate = moment(picker.inputEl.val(), picker.format, picker.options.useStrict);
+		var newDate = moment(trDate(picker.inputEl.val()), picker.format, picker.options.useStrict);
 		
 		if (newDate.isValid() && !isInDisableDates(picker, newDate) && isInEnableDates(picker, newDate)) {
 			update(picker);
@@ -698,7 +703,9 @@
 		var formatted = '';
 		if (!picker.unset){ formatted = moment(picker.date).format(picker.format); }
 		
-		picker.inputEl.val(formatted);
+		var year = picker.date.year(); 				
+		var trYear = picker.options.transferOutYear;
+		picker.inputEl.val(formatted.replace(year, trYear(year)));
 		picker.element.data('date', formatted);
 		if (!picker.options.pickTime){ picker.hide();}
 	}
@@ -1065,7 +1072,9 @@
 		useStrict: false,
 		direction: "auto",
 		sideBySide: false,
-		daysOfWeekDisabled: false
+		daysOfWeekDisabled: false,
+		transferOutYear: function(year){ return year; },
+		transferInDate: function(dateStr){ return dateStr; }
 	};
 
 }));
