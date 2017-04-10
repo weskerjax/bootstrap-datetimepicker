@@ -6,12 +6,20 @@
     <TargetPath>.\none</TargetPath>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.css" />
+    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.css">
+      <DependentUpon>bootstrap-datetimepicker.less</DependentUpon>
+    </Content>
     <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.min.css" />
-    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.min.css">
+      <DependentUpon>bootstrap-datetimepicker.less</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.min.js">
+      <DependentUpon>bootstrap-datetimepicker.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.less" />
-    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.min.js.map" />
+    <Content Include="Scripts\bootstrap-datetimepicker-1.0.1\bootstrap-datetimepicker.min.js.map">
+      <DependentUpon>bootstrap-datetimepicker.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="bootstrap-datetimepicker.nuspec" />
