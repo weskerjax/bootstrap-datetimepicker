@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{41C4DA2E-3C33-46A3-A4C6-B3D1A7D100F7}</ProjectGuid>
+	<OutputPath>bin\</OutputPath>
     <!-- NuGet Package 需要此變數，給一個不存在的敷衍過去 -->
     <TargetPath>.\none</TargetPath>
   </PropertyGroup>
@@ -15,6 +18,9 @@
   <ItemGroup>
     <None Include="bootstrap-datetimepicker.nuspec" />
   </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  
   <!-- 空的 Build -->
   <Target Name="Build" />
+  <Target Name="Rebuild" />
 </Project>
