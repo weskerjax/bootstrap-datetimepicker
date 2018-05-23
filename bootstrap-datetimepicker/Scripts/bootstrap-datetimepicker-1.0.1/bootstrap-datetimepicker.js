@@ -418,9 +418,9 @@
 		table.parent().hide();
 		if (picker.use24hours) {
 			current = 0;
-			for (i = 0; i < 6; i += 1) {
+			for (i = 0; i < 4; i += 1) {
 				html += '<tr>';
-				for (j = 0; j < 4; j += 1) {
+				for (j = 0; j < 6; j += 1) {
 					html += '<td class="hour">' + padLeft(current.toString()) + '</td>';
 					current++;
 				}
